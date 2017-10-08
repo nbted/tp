@@ -35,7 +35,7 @@ b. la gestion des droits d'acces : en premier lieu a été faite via les annotat
    j'aimerais une explication sur ce morceaux de code.
    
  3. un autre souci c'est sur les images
-   j'ai suivi un tuto qui correspond à votre explication mais arrivé à l'ajout des associations "hasMany ou hasOne" pour lier les images au poi ou groupe des Poi je rencontre une erreur lors de l'upload .Par contre quand j'enleve les relations je peux stocker l'image sur mon serveur local wamp et l'afficher.
+   j'ai suivi un tuto qui correspond à votre explication mais arrivé à l'ajout des associations "hasMany ou hasOne" pour lier les images au poi ou groupe des Poi je rencontre une erreur ' mediaPoi not found with id null'  lors de l'upload .Par contre quand j'enleve les relations je peux stocker l'image sur mon serveur local wamp et l'afficher.
    
    Veuiller m' excuser !!
 
