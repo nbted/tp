@@ -9,9 +9,7 @@
 </head>
 <body>
 
-
-
-        <asset:image src="1.jpg" class="grails-logo"/>
+      <g:include view="/pages/google.gsp">vue google</g:include>
 
 
 </body>

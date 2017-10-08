@@ -1,6 +1,7 @@
 package tp
 
 import grails.plugin.springsecurity.SpringSecurityService
+import grails.plugin.springsecurity.annotation.Secured
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -19,16 +20,31 @@ class UserController {
     def getId(User user){
         return user.id
     }
-
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER','ROLE_USER'])
     def show(User user) {
+        respond user
+
+    }
+
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER'])
+    def create() {
+        User current =springSecurityService.currentUser
+        def user = new User(params)
+        if (current.getAuthorities()== ['ROLE_ADMIN']  ){
+            respond user
+        }
+        else if (current.getAuthorities()== ['ROLE_ANNOUNCER']){
+            if(user.getAuthorities()==['ROLE_USER']){
+                respond(user)
+            }
+            else render 'no droit'
+        }
+        else
         respond user
     }
 
-    def create() {
-        respond new User(params)
-    }
-
     @Transactional
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER'])
     def save(User user) {
         if (user == null) {
             transactionStatus.setRollbackOnly()
@@ -52,12 +68,32 @@ class UserController {
             '*' { respond user, [status: CREATED] }
         }
     }
-
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER','ROLE_USER'])
     def edit(User user) {
-        respond user
+
+        User current = springSecurityService.currentUser
+
+        def autorite1 = current.getAuthorities().authority
+        def autorite2 = user.getAuthorities().authority
+        if (current != user){
+            if (autorite1 == '[ROLE_ADMIN]'){
+                respond(user)
+            }
+            else if (autorite1 =='[ROLE_ANNOUNCER]'){
+                if(autorite2 =='[ROLE_ANNOUNCER]' || autorite2=='[ROLE_USER]' ) {
+                    respond(user)
+                }
+                else render  'mon role ' + current.getAuthorities().authority +' no droit'
+            }
+            else
+                render  'mon role ' + current.getAuthorities().authority +' no droit'
+
+        }
+        else  respond(user)
     }
 
     @Transactional
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER','ROLE_USER'])
     def update(User user) {
         if (user == null) {
             transactionStatus.setRollbackOnly()
@@ -71,7 +107,25 @@ class UserController {
             return
         }
 
-        user.save flush:true
+        User current = springSecurityService.currentUser
+        def autorite1 = current.getAuthorities().authority
+        def autorite2 = user.getAuthorities().authority
+        if (current != user){
+            if (autorite1.contains('ROLE_ADMIN')){
+                user.save  flush:true
+            }
+            else if (autorite1.contains('ROLE_ANNOUNCER')){
+                if(autorite2.contains('ROLE_ANNOUNCER') || autorite2.contains('ROLE_USE') ) {
+                    user.save  flush:true
+                }
+                else render  'mon role ' + current.getAuthorities().authority +' no droit'
+             }
+            else
+                render  'mon role ' + current.getAuthorities().authority +' no droit'
+
+        }
+        else  user.save flush:true
+
 
         request.withFormat {
             form multipartForm {
@@ -83,6 +137,7 @@ class UserController {
     }
 
     @Transactional
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER'])
     def delete(User user) {
 
         if (user == null) {
@@ -90,8 +145,14 @@ class UserController {
             notFound()
             return
         }
-
-        user.delete flush:true
+        User current = springSecurityService.currentUser
+        def authorite1 = current.getAuthorities().authority
+        def authorite2 = current.getAuthorities().authority
+        if(authorite1 == '[ROLE_ADMIN]'){
+            Collection<UserRole> userRoles = UserRole.findAllByUser(user);
+            userRoles*.delete();
+            user.delete flush:true
+        }
 
         request.withFormat {
             form multipartForm {

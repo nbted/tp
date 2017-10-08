@@ -1,5 +1,14 @@
 ---
 grails:
+    guides:
+        local: C:/wamp64/www/images
+        localurl: http://localhost:80/images
+---
+server:
+    port: 9999
+---
+grails:
+
     profile: web
     codegen:
         defaultPackage: tp

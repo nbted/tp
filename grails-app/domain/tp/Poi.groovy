@@ -8,15 +8,15 @@ class Poi {
 
     //static hasOne = [emplacement : Emplacement]
     static  belongsTo = GroupePoi
-    static  hasMany = [groupePoi: GroupePoi , media : Media, dbphoto :DBPhoto]
+    static  hasMany = [groupePoi: GroupePoi , mediaPoi:MediaPoi ]
 
     static constraints = {
         nom blank : false ,nullable : false , size : 5..50
         description blank: false , nullable : false , size : 5..10000
     }
 
-    Set<Media> getMedias(){
+    Set<MediaPoi> getMedias(){
 
-        (Media.findAllByPoi(this) as List<Media>)*.media as Set<Media>
+        (MediaPoi.findAllByPoi(this) as List<MediaPoi>)*.mediaPoi as Set<MediaPoi>
     }
 }

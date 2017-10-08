@@ -17,6 +17,11 @@ class UrlMappings {
         "/pages/services"(view: "/pages/services")
         "/user/show"(view:"/user/show" )
         "/pages/infoperso"(view: "/pages/infoperso")
+        "/pages/editProfil"(view: "/pages/editProfil")
+
+
+        "/login/$action?"(controller: "login")
+        "/logout/$action?"(controller: "logout")
 
     }
 }

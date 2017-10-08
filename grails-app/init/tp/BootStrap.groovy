@@ -7,7 +7,6 @@ class BootStrap {
     def init = { servletContext ->
 
 
-
         def roleUtilisateur = new Role(authority: "ROLE_USER").save(flush :true , failOnError : true)
         def roleModelateur = new Role(authority: "ROLE_ANNOUNCER").save(flush : true , failOnError : true)
         def roleAdministrateur = new Role(authority: "ROLE_ADMIN").save(flush : true , failOnError : true)
@@ -46,7 +45,7 @@ class BootStrap {
         restaurants.addToPoi(resto5)
         restaurants.save(flush : true , failOnError : true)
 
-        def hopitaux  = new GroupePoi(nomGroupe:"Restauran" ).save(flush : true , failOnError : true)
+        def hopitaux  = new GroupePoi(nomGroupe:"HOPITAUX" ).save(flush : true , failOnError : true)
         def loc4 = new Emplacement(latitude: 43.6745612 , longitude: 7.208153100000004)
         def hopi1 = new Poi( nom: "Fondation Lenval" ,emplacement: loc4 , description: "Children's hospital in Nice, France")
         hopitaux.addToPoi(hopi1)
@@ -62,13 +61,13 @@ class BootStrap {
         hopitaux.addToPoi(hopi3)
         hopitaux.save(flush : true , failOnError : true)
 
-        def loc7 = new Emplacement(latitude: 12.26644 , longitude: 4.5236)
-        def hopi4 = new Poi( nom: "Restau" ,emplacement: loc7 , description: "babababbabbabbabb")
+        def loc7 = new Emplacement(latitude: 43.7242 , longitude: 7.2808)
+        def hopi4 = new Poi( nom: "Hopital Lacassagne" ,emplacement: loc7 , description: "Établissement de santé de droit privé à but non lucratif et reconnu d’utilité publique ")
         hopitaux.addToPoi(hopi4)
         hopitaux.save(flush : true , failOnError : true)
 
-        def loc8 = new Emplacement(latitude: 12.26644 , longitude: 4.5236)
-        def hopi5 = new Poi( nom: "Restau" ,emplacement: loc8 , description: "babababbabbabbabb")
+        def loc8 = new Emplacement(latitude: 43.7029 , longitude: 7.2749)
+        def hopi5 = new Poi( nom: "Hospital Saint-Roch" ,emplacement: loc8 , description: "Établissement de santé de droit privé à but non lucratif et reconnu d’utilité publique ")
         hopitaux.addToPoi(hopi5)
         hopitaux.save(flush : true , failOnError : true)
 

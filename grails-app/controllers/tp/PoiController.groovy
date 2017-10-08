@@ -1,5 +1,7 @@
 package tp
 
+import grails.plugin.springsecurity.annotation.Secured
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -17,11 +19,13 @@ class PoiController {
         respond poi
     }
 
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER'])
     def create() {
         respond new Poi(params)
     }
 
     @Transactional
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER'])
     def save(Poi poi) {
         if (poi == null) {
             transactionStatus.setRollbackOnly()
@@ -46,11 +50,13 @@ class PoiController {
         }
     }
 
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER'])
     def edit(Poi poi) {
         respond poi
     }
 
     @Transactional
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER'])
     def update(Poi poi) {
         if (poi == null) {
             transactionStatus.setRollbackOnly()
@@ -76,19 +82,32 @@ class PoiController {
     }
 
     @Transactional
-    def delete(Poi poi) {
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER'])
+    def delete(Poi poief) {
 
-        if (poi == null) {
+        if (poief == null) {
             transactionStatus.setRollbackOnly()
             notFound()
             return
         }
 
-        poi.delete flush:true
+
+       //Collection<GroupePoi> groupePoiCollection = GroupePoi.findAllByPoi(poi)
+        //groupePoiCollection*.delete()
+
+        GroupePoi.findAll().each {groupePoi->
+            if (groupePoi.poi.contains(poief)){
+                groupePoi.removeFromPoi(poief)
+                groupePoi.save(flush : true , failOnError: true)
+            }
+        }
+
+        poief.delete flush:true
+
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'poi.label', default: 'Poi'), poi.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'poi.label', default: 'Poi'), poief.id])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }

@@ -52,16 +52,27 @@
                     </li>
 
                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Paramètres <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/user/index">Liste des utilisateurs</a></li>
+                            <li><a href="/role/index">Liste des Roles</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Votre Profile <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="/user/show">Informations personnelles</a>
-                                <a href="/user/show">Edit Profile</a>
+                                <a href="/pages/infoperso">Informations personnelles</a>
+                                <a href="/user/edit/1">Edit Profile</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <g:link controller="logout">sign out</g:link>
+                        <g:form controller="logout">
+                            <g:submitButton name="logout" value="Se deconnecter" />
+                        </g:form>
                     </li>
                 </ul>
 

@@ -1,5 +1,7 @@
 package tp
 
+import grails.plugin.springsecurity.annotation.Secured
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -16,12 +18,13 @@ class GroupePoiController {
     def show(GroupePoi groupePoi) {
         respond groupePoi
     }
-
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER'])
     def create() {
         respond new GroupePoi(params)
     }
 
     @Transactional
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER'])
     def save(GroupePoi groupePoi) {
         if (groupePoi == null) {
             transactionStatus.setRollbackOnly()
@@ -45,12 +48,13 @@ class GroupePoiController {
             '*' { respond groupePoi, [status: CREATED] }
         }
     }
-
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER'])
     def edit(GroupePoi groupePoi) {
         respond groupePoi
     }
 
     @Transactional
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER'])
     def update(GroupePoi groupePoi) {
         if (groupePoi == null) {
             transactionStatus.setRollbackOnly()
@@ -76,6 +80,7 @@ class GroupePoiController {
     }
 
     @Transactional
+    @Secured(['ROLE_ADMIN','ROLE_ANNOUNCER'])
     def delete(GroupePoi groupePoi) {
 
         if (groupePoi == null) {

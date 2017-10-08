@@ -3,7 +3,7 @@ package tp
 import grails.validation.Validateable
 import org.springframework.web.multipart.MultipartFile
 
-class ImageValidation implements  Validateable {
+class FeaturedImageCommand implements Validateable {
     MultipartFile featuredImageFile
     Long id
     Integer version
@@ -19,10 +19,9 @@ class ImageValidation implements  Validateable {
                 return false
             }
 
-            ['jpeg', 'jpg', 'png'].any { extension ->
-                val.originalFilename?.toLowerCase()?.endsWith(extension)
+            ['jpeg', 'jpg', 'png'].any { extension -> // <1>
+                 val.originalFilename?.toLowerCase()?.endsWith(extension)
             }
         }
     }
 }
-
