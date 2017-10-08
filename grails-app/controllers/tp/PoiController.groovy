@@ -92,8 +92,7 @@ class PoiController {
         }
 
 
-       //Collection<GroupePoi> groupePoiCollection = GroupePoi.findAllByPoi(poi)
-        //groupePoiCollection*.delete()
+
 
         GroupePoi.findAll().each {groupePoi->
             if (groupePoi.poi.contains(poief)){

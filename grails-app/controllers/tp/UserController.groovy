@@ -147,12 +147,21 @@ class UserController {
         }
         User current = springSecurityService.currentUser
         def authorite1 = current.getAuthorities().authority
-        def authorite2 = current.getAuthorities().authority
-        if(authorite1 == '[ROLE_ADMIN]'){
+        def authorite2 = user.getAuthorities().authority
+        if(authorite1.contains('ROLE_ADMIN')) {
             Collection<UserRole> userRoles = UserRole.findAllByUser(user);
             userRoles*.delete();
-            user.delete flush:true
+            user.delete flush: true
         }
+        else if(authorite1.contains('ROLE_ANNOUNCER')){
+           if (authorite2.contains('ROLE_USER') || authorite2.contains('ROLE_ANNOUNCER')){
+               Collection<UserRole> userRoles = UserRole.findAllByUser(user);
+               userRoles*.delete();
+               user.delete flush: true
+           }
+        }
+        else render 'tu n\'a pas droit pour effacer ce user'
+
 
         request.withFormat {
             form multipartForm {
