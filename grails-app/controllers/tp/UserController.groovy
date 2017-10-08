@@ -73,14 +73,17 @@ class UserController {
 
         User current = springSecurityService.currentUser
 
-        def autorite1 = current.getAuthorities().authority
-        def autorite2 = user.getAuthorities().authority
+        def autorite1 = current.getAuthorities().authority[0].toString()
+        def autorite2 = user.getAuthorities().authority[0].toString()
         if (current != user){
-            if (autorite1 == '[ROLE_ADMIN]'){
+            if (autorite1 == 'ROLE_ADMIN'){
                 respond(user)
             }
-            else if (autorite1 =='[ROLE_ANNOUNCER]'){
-                if(autorite2 =='[ROLE_ANNOUNCER]' || autorite2=='[ROLE_USER]' ) {
+            else if (autorite1.equals('ROLE_ANNOUNCER')){
+                if(autorite2.equals('ROLE_ANNOUNCER')  ) {
+                    respond(user)
+                }
+                else if (autorite2.equals('ROLE_USER')){
                     respond(user)
                 }
                 else render  'mon role ' + current.getAuthorities().authority +' no droit'
