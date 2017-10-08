@@ -9,7 +9,8 @@ bonjour
 a. pour ce qui est d'authentification il ya pas de probleme et pour acceder à mon site on devrait se connecter
 b. la gestion des droits d'acces : en premier lieu a été faite via les annotations. En plus de ça j'ai essayé de modifier le controleur UserControler: par exemple la methode "update" a été modifiée de la maniere suivante :
 
-User current = springSecurityService.currentUser
+
+     User current = springSecurityService.currentUser
         def autorite1 = current.getAuthorities().authority
         def autorite2 = user.getAuthorities().authority
         if (current != user){
@@ -27,6 +28,7 @@ User current = springSecurityService.currentUser
 
         }
         else  user.save flush:true
+        
         
    mais malheureusement cette maniere de faire n'a pas fonctionné l'utilisateur accede seulement sur son profil meme si c'est un admin
    
